@@ -10,6 +10,7 @@ if(isset($_POST["login"])){
     $query_run= mysqli_query($connection,$query);
    if(mysqli_num_rows($query_run)){
     $_SESSION['email']=$_POST['email'];
+   
     
     while($row= mysqli_fetch_assoc($query_run)){
         $_SESSION['session']=$row['session'];

@@ -8,7 +8,7 @@ $email="";
 $password="";
 $query= "Select *
 from admins
-where email='admin@gmail.com'";
+where email='$_SESSION[email]'";
 
 $query_run=mysqli_query($connection,$query);
 while($row= mysqli_fetch_assoc($query_run)){

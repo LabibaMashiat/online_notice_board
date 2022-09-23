@@ -61,8 +61,22 @@ if(isset($_POST['update_profile'])){
         <section id="container">
             <div class="row">
                 <div class="col-md-2" id="left_sidebar">
-                    <img src="images/img1.jpg" class="img-rounded" width="200px" height="200px" alt="">
-                    <b><?php echo $_SESSION['email'];?> </b>
+                    <?php
+                    
+                     $connection = mysqli_connect("localhost","root","");
+                     $db = mysqli_select_db($connection,"online_notice_board");
+                     $query="select *
+                     from users
+                     where email='$_SESSION[email]'";
+                     $query_run = mysqli_query($connection,$query);
+                     while($row=mysqli_fetch_assoc($query_run)){
+                        $image=$row['image'];
+                        echo "<img src='images/$image' class='img-rounded' width='200px' height='200px' alt=''>";
+                     }
+                    ?>
+                    <!-- <img src="images/" class="img-rounded" width="200px" height="200px" alt=""> -->
+                    <b><?php echo "<a href='$_SESSION[email]' class='link-dark'>$_SESSION[email]</a>";
+                    ?> </b>
                     <div class="d-grid gap-2">
                     <button type="button" class="btn btn-primary mt-2" id="edit_profile_button" >Edit Profile</button>
                     <button type="button" class="btn btn-warning" id="view_notice_button">View All Notices</button>
@@ -71,11 +85,8 @@ if(isset($_POST['update_profile'])){
                     
                 </div>
                 <div class="col-md-8" id="main_content">
-                    <h2 id="ab">Welcome to user dashboard</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, nam.</p>
-                    <p>Magni tempore at delectus laborum sapiente eos illum laudantium necessitatibus.</p>
-                    <p>Libero molestiae obcaecati, est blanditiis natus deserunt quam et! Debitis.</p>
-                    <p>Atque neque earum obcaecati, sapiente blanditiis vero harum dicta voluptatum.</p>
+                    <h2>Welcome to your profile!!</h2>
+                   
                 </div>
             </div>
         </section>

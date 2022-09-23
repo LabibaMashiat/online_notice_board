@@ -1,16 +1,23 @@
 <?php
 session_start();
+
 $connection= mysqli_connect("localhost","root","");
 $db= mysqli_select_db($connection,"online_notice_board");
 
 if(isset($_POST["register"])){
+    $image_name=$_FILES['image']['name'];
+    
+ $tmp_name=$_FILES['image']['tmp_name'];
+ $upload_image='images/'.$image_name;
     $query="insert into users 
-    values($_POST[uid],'$_POST[fname]','$_POST[lname]','$_POST[email]','$_POST[password]',$_POST[session])";
+    values($_POST[uid],'$_POST[fname]','$_POST[lname]','$_POST[email]','$_POST[password]',$_POST[session],'$image_name')";
     $query_run= mysqli_query($connection,$query);
     if($query_run){
+        move_uploaded_file($tmp_name,$upload_image);
         echo "<script>alert('Registration Successfully done..You may now login');
         window.location.href='index1.php';
         </script>";
+       
     }
     else{
         echo "<script>alert('Registration Failed..Try again');
@@ -51,7 +58,7 @@ if(isset($_POST["register"])){
                 <div class="col-md-4 m-auto block">
                     <center><h4>Registration Form</h4></center>
                     <!-- main form  -->
-                    <form action="register.php" method="post">
+                    <form action="register.php" method="post" enctype="multipart/form-data">
                         <!-- first name  -->
                     <div class="form-group">
                             <label>First Name:</label>
@@ -89,6 +96,11 @@ if(isset($_POST["register"])){
                                 <option>20</option>
                                 <option>21</option>
                             </select>
+                        </div>
+                        <!-- image adding  -->
+                        <div class="form-group">
+                            <label for="image">Upload your image</label>
+                           <input type="file" class="form-control" name="image">
                         </div>
                         <!-- submit button  -->
                         <button class="btn btn-primary rounded mt-4" type="submit" name="register">Register</button>

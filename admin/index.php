@@ -19,7 +19,7 @@ if(isset($_POST["login"])){
    }
    else{
     echo "<script> alert('Please enter correct email and password');
-    window.location.href='index.php';
+    window.location.href='admin/index.php';
     </script>";
    }
 }

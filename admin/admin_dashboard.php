@@ -21,16 +21,20 @@ if(isset($_POST['update_profile'])){
   }
 }
 if(isset($_POST['send_notice'])){
+    $file_name=$_FILES['file']['name'];
     
+    $tmp_name=$_FILES['file']['tmp_name'];
+    $upload_file='files/'.$file_name;
     $connection = mysqli_connect("localhost","root","");
   $db = mysqli_select_db($connection,"online_notice_board");
   $query="insert into notice 
-    VALUES($_POST[nid],'$_POST[post_date]','$_POST[to_whom]','$_POST[title]','$_POST[message]')";
-//     insert into notice
-// VALUES(01,'04/05/2022','to 14','hefwehy','hcgfwhycgx');
+    VALUES($_POST[nid],'$_POST[post_date]','$_POST[to_whom]','$_POST[title]','$_POST[message]','$file_name')";
+    // insert into notice
+// VALUES(01,'04/05/2022','to 14','hefwehy','hcgfwhycgx','abc.pdf');
     $query_run= mysqli_query($connection,$query);
     if($query_run){
-        echo "<script>alert('Notice Successful');
+        move_uploaded_file($tmp_name,$upload_file);
+        echo "<script>alert('Notice Successfully delivered');
         window.location.href='admin_dashboard.php';
         </script>";
     }
@@ -88,8 +92,22 @@ if(isset($_POST['send_notice'])){
         <section id="container">
             <div class="row">
                 <div class="col-md-2" id="left_sidebar">
-                    <img src="../images/img1.jpg" class="img-rounded" width="200px" height="200px" alt="">
-                    <b><?php echo $_SESSION['email'];?> </b>
+                <?php
+                    
+                    $connection = mysqli_connect("localhost","root","");
+                    $db = mysqli_select_db($connection,"online_notice_board");
+                    $query="select *
+                    from admins
+                    where email='$_SESSION[email]'";
+                    $query_run = mysqli_query($connection,$query);
+                    while($row=mysqli_fetch_assoc($query_run)){
+                       $image=$row['image'];
+                       echo "<img src='images/$image' class='img-rounded' width='200px' height='200px' alt=''>";
+                    }
+                   ?>
+                    <!-- <img src="../images/img1.jpg" class="img-rounded" width="200px" height="200px" alt=""> -->
+                    <b><?php echo "<a href='$_SESSION[email]' class='link-dark'>$_SESSION[email]</a>";
+                    ?> </b>
                     <div class="d-grid gap-2">
                     <button type="button" class="btn btn-primary mt-2" id="edit_profile_button" >Edit Profile</button>
                     <button type="button" class="btn btn-primary mt-2" id="create_notice_button" >Create a notice</button>
@@ -101,10 +119,7 @@ if(isset($_POST['send_notice'])){
                 </div>
                 <div class="col-md-8" id="main_content">
                     <h2 id="ab">Welcome to Admin dashboard</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, nam.</p>
-                    <p>Magni tempore at delectus laborum sapiente eos illum laudantium necessitatibus.</p>
-                    <p>Libero molestiae obcaecati, est blanditiis natus deserunt quam et! Debitis.</p>
-                    <p>Atque neque earum obcaecati, sapiente blanditiis vero harum dicta voluptatum.</p>
+                    
                 </div>
             </div>
         </section>

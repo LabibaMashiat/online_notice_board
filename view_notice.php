@@ -26,6 +26,11 @@
             <div class="card-body">
                 <h5 class="card-title"><?php echo $row['title'] ?></h5>
                 <p class="card-text"><?php echo $row['message'] ?></p>
+                <?php 
+                 $file=$row['file'];
+                 if($file==true){
+                echo "<a href='files/$file' class='bg-info text-dark p-2 rounded'>View File</a>";}
+                ?>
             </div>
         </div>
         <?php

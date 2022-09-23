@@ -15,7 +15,7 @@
     <center><h2>Send Notice Form</h2></center>
     <br>
     <div>
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
            <div class="form-group">
             <label for="">To Whom-></label>
             <select class="form_control" name="to_whom" id="">
@@ -42,6 +42,10 @@
            <div class="form-group">
             <label for="">Message:</label>
             <textarea name="message" id="" cols="80" rows="8" class="form-control" placeholder="Type your message"></textarea>
+           </div>
+           <div class="form-group my-4">
+            <label for="file">Attach File:</label>
+            <input type="file" name="file" class="form-control">
            </div>
            <button type="submit" class="btn btn-primary" name="send_notice">Send Notice</button>
         </form>
